@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Page
+    x:Class="OOP_Lab.View.Home"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:entities="using:OOP_Lab.Entities"
+    xmlns:helpers="using:OOP_Lab.Helpers"
+    xmlns:local="using:OOP_Lab.View"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:type="using:OOP_Lab.Entities"
+    xmlns:vm="using:OOP_Lab.ViewModels"
+    x:Name="HomePage"
+    Background="Transparent"
+    mc:Ignorable="d">
+    <Page.Resources>
+        <helpers:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+        <helpers:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
+    </Page.Resources>
+
+    <Grid>
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <StackPanel Padding="36,40" Spacing="24">
+                <Grid ColumnSpacing="8">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="0.3*" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <TextBox
+                        Grid.Column="0"
+                        HorizontalAlignment="Stretch"
+                        PlaceholderText="Search"
+                        Text="{Binding SearchQuery, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                    <Button
+                        Grid.Column="2"
+                        HorizontalAlignment="Right"
+                        Click="OnOpenAddDialog"
+                        Content="Add"
+                        Style="{StaticResource AccentButtonStyle}" />
+                    <Button
+                        Grid.Column="3"
+                        HorizontalAlignment="Right"
+                        Command="{Binding DeleteAllCommand}"
+                        Content="Delete All" />
+                    <Button
+                        Grid.Column="4"
+                        HorizontalAlignment="Right"
+                        Command="{Binding DeleteCommand}"
+                        Content="Delete"
+                        Visibility="{Binding SelectedItem, Converter={StaticResource NullToVisibilityConverter}}" />
+                    <Button
+                        Grid.Column="5"
+                        HorizontalAlignment="Right"
+                        Click="ButtonEdit_Click"
+                        Content="Edit"
+                        Visibility="{Binding SelectedItem, Converter={StaticResource NullToVisibilityConverter}}" />
+                </Grid>
+                <Grid VerticalAlignment="Center" ColumnSpacing="8">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="0.5*" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <StackPanel
+                        Grid.Column="0"
+                        VerticalAlignment="Center"
+                        Orientation="Horizontal"
+                        Spacing="6">
+                        <TextBlock VerticalAlignment="Center">
+                            <Run Text="Apps found:" />
+                            <Run Text="{Binding SearchResults.Count}" />
+                        </TextBlock>
+                        <TextBlock VerticalAlignment="Center">
+                            <Run Text="Apps created:" />
+                            <Run Text="{Binding Statistics.ApplicationCount}" />
+                        </TextBlock>
+                        <TextBlock VerticalAlignment="Center">
+                            <Run Text="Average rating for apps:" />
+                            <Run Text="{Binding Statistics.TotalRating}" />
+                        </TextBlock>
+                    </StackPanel>
+                    <FontIcon
+                        Grid.Column="2"
+                        Foreground="{StaticResource TextFillColorSecondaryBrush}"
+                        Glyph="&#xE71C;" />
+                    <TextBlock
+                        Grid.Column="3"
+                        VerticalAlignment="Center"
+                        Foreground="{StaticResource TextFillColorSecondaryBrush}"
+                        Text="Search by:" />
+                    <ComboBox
+                        Grid.Column="4"
+                        HorizontalAlignment="Right"
+                        SelectedItem="{Binding SelectedSearchCriterion, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                        <x:String>All</x:String>
+                        <x:String>Name</x:String>
+                        <x:String>Description</x:String>
+                        <x:String>Category</x:String>
+                    </ComboBox>
+                </Grid>
+                <GridView
+                    x:Name="itemGridView"
+                    Grid.Row="1"
+                    Height="Auto"
+                    Margin="-4,-12,0,-4"
+                    AutomationProperties.AutomationId="ItemGridView"
+                    AutomationProperties.Name="Items In Group"
+                    IsItemClickEnabled="False"
+                    IsSwipeEnabled="False"
+                    ItemsSource="{Binding SearchResults}"
+                    SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
+                    SelectionMode="Single">
+                    <GridView.ItemTemplate>
+                        <DataTemplate x:DataType="type:ApplicationEntitie">
+                            <Grid
+                                x:Name="controlRoot"
+                                Width="400"
+                                MinHeight="200"
+                                HorizontalAlignment="Stretch"
+                                Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                                BorderThickness="1"
+                                CornerRadius="{StaticResource ControlCornerRadius}">
+                                <Grid Margin="16" VerticalAlignment="Stretch">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+                                    <StackPanel Grid.Row="0" Spacing="8">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="Auto" />
+                                            </Grid.ColumnDefinitions>
+                                            <StackPanel
+                                                Grid.Column="0"
+                                                VerticalAlignment="Center"
+                                                Orientation="Horizontal"
+                                                Spacing="2">
+                                                <TextBlock
+                                                    x:Name="titleText"
+                                                    IsTextSelectionEnabled="True"
+                                                    Style="{StaticResource BodyStrongTextBlockStyle}"
+                                                    Text="{Binding Name}"
+                                                    TextLineBounds="TrimToCapHeight"
+                                                    TextWrapping="NoWrap" />
+                                                <TextBlock
+                                                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                                    IsTextSelectionEnabled="True"
+                                                    Text="|"
+                                                    TextLineBounds="TrimToCapHeight"
+                                                    TextWrapping="NoWrap" />
+                                                <TextBlock
+                                                    VerticalAlignment="Center"
+                                                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                                    IsTextSelectionEnabled="True"
+                                                    Text="{Binding Category}"
+                                                    TextLineBounds="TrimToCapHeight"
+                                                    TextWrapping="NoWrap" />
+                                            </StackPanel>
+                                            <StackPanel
+                                                Grid.Column="2"
+                                                VerticalAlignment="Center"
+                                                Orientation="Horizontal"
+                                                Spacing="2">
+                                                <FontIcon
+                                                    VerticalAlignment="Center"
+                                                    FontSize="14"
+                                                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                                    Glyph="&#xECC5;" />
+                                                <TextBlock
+                                                    VerticalAlignment="Center"
+                                                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                                    Style="{StaticResource CaptionTextBlockStyle}"
+                                                    Text="{Binding LastUpdate}"
+                                                    TextTrimming="WordEllipsis"
+                                                    TextWrapping="NoWrap" />
+                                            </StackPanel>
+                                        </Grid>
+                                        <TextBlock
+                                            MaxHeight="50"
+                                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                            IsTextSelectionEnabled="True"
+                                            LineStackingStrategy="BlockLineHeight"
+                                            Style="{StaticResource CaptionTextBlockStyle}"
+                                            Text="{Binding Description}"
+                                            TextTrimming="WordEllipsis"
+                                            TextWrapping="Wrap" />
+                                    </StackPanel>
+                                    <Grid Grid.Row="2">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+                                        <StackPanel Orientation="Horizontal" Spacing="2">
+                                            <RatingControl
+                                                Grid.Column="0"
+                                                HorizontalAlignment="Left"
+                                                Value="{Binding Rating, Mode=TwoWay}" />
+                                            <TextBlock
+                                                VerticalAlignment="Center"
+                                                FontSize="16"
+                                                Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                                Text="/" />
+                                            <TextBlock VerticalAlignment="Center" Text="{Binding PopularityScore}" />
+                                        </StackPanel>
+                                        <StackPanel
+                                            Grid.Column="2"
+                                            Orientation="Horizontal"
+                                            Spacing="4">
+                                            <Button
+                                                x:Name="Update"
+                                                Command="{Binding DataContext.UpdateCommand, ElementName=HomePage}"
+                                                CommandParameter="{Binding}"
+                                                Content="Update"
+                                                Style="{StaticResource AccentButtonStyle}"
+                                                Visibility="{Binding IsInstalled, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                                            <Button
+                                                x:Name="Uninstall"
+                                                Command="{Binding DataContext.UninstallCommand, ElementName=HomePage}"
+                                                CommandParameter="{Binding}"
+                                                Visibility="{Binding IsInstalled, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                                <FontIcon Glyph="&#xE74D;" />
+                                            </Button>
+                                            <Button
+                                                x:Name="Download"
+                                                Command="{Binding DataContext.DownloadCommand, ElementName=HomePage}"
+                                                CommandParameter="{Binding}"
+                                                Style="{StaticResource AccentButtonStyle}"
+                                                Visibility="{Binding IsInstalled, Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter=true}">
+                                                <StackPanel Orientation="Horizontal">
+                                                    <FontIcon Glyph="&#xE896;" />
+                                                    <TextBlock Text="{Binding DownloadCount}" />
+                                                </StackPanel>
+                                            </Button>
+                                        </StackPanel>
+                                    </Grid>
+                                </Grid>
+                            </Grid>
+                        </DataTemplate>
+                    </GridView.ItemTemplate>
+                </GridView>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</Page>

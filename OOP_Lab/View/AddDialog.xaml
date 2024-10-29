@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<ContentDialog
+    x:Class="OOP_Lab.View.AddDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:helpers="using:OOP_Lab.Helpers"
+    xmlns:local="using:OOP_Lab.View"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    CloseButtonText="Cancle"
+    Closing="OnClosing"
+    DefaultButton="Primary"
+    PrimaryButtonText="Add"
+    mc:Ignorable="d">
+    <ContentDialog.Resources>
+        <helpers:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+        <helpers:NullToBooleanConverter x:Key="NullToBooleanConverter" />
+    </ContentDialog.Resources>
+
+    <ContentDialog.Title>
+        <Grid Width="400">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Grid.Column="0" Text="Add new Application" />
+
+            <ComboBox
+                x:Name="ConstructorComboBox"
+                Grid.Column="2"
+                SelectionChanged="ComboBoxConstructor_SelectionChanged">
+                <ComboBoxItem Content="Full" />
+                <ComboBoxItem Content="Basic" />
+                <ComboBoxItem Content="With Category" />
+                <ComboBoxItem Content="Default" />
+                <ComboBoxItem Content="Parse" />
+            </ComboBox>
+        </Grid>
+    </ContentDialog.Title>
+
+    <ScrollViewer>
+        <StackPanel Width="400">
+            <StackPanel>
+                <InfoBar
+                    x:Name="LimitReachedInfoBar"
+                    Title="Limit Reached"
+                    IsClosable="False"
+                    IsIconVisible="True"
+                    IsOpen="{Binding IsLimitReached}"
+                    Message="You have reached the limit of applications."
+                    Severity="Warning" />
+                <InfoBar
+                    x:Name="Error"
+                    Title="Error"
+                    IsClosable="False"
+                    IsIconVisible="True"
+                    IsOpen="{Binding Error, Mode=TwoWay, Converter={StaticResource NullToBooleanConverter}}"
+                    Message="{Binding Error, Mode=TwoWay}"
+                    Severity="Error" />
+            </StackPanel>
+
+            <Grid>
+
+                <!--  Parse  -->
+                <StackPanel x:Name="ParseStackPanel" Spacing="20">
+                    <TextBlock
+                        x:Name="ParseTextBlock"
+                        Style="{StaticResource BodyStrongTextBlockStyle}"
+                        Text="Example string format: &quot;Name/Description/Category/Rating/Version&quot;"
+                        TextWrapping="Wrap" />
+                    <TextBox x:Name="ParseTextBox" Text="{Binding ParseInput, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                </StackPanel>
+
+                <!--  Constructor  -->
+                <StackPanel x:Name="ConstructorStackPanel" Spacing="20">
+                    <!--  Name  -->
+                    <StackPanel Spacing="12">
+                        <TextBlock
+                            x:Name="NameTextBlock"
+                            Style="{StaticResource BodyStrongTextBlockStyle}"
+                            Text="Name"
+                            TextWrapping="Wrap" />
+                        <TextBox x:Name="NameTextBox" Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                    </StackPanel>
+
+                    <!--  Description  -->
+                    <StackPanel Spacing="12">
+                        <TextBlock
+                            x:Name="DescriptionTextBlock"
+                            Style="{StaticResource BodyStrongTextBlockStyle}"
+                            Text="Description"
+                            TextWrapping="Wrap" />
+                        <TextBox
+                            x:Name="DescriptionTextBox"
+                            AcceptsReturn="True"
+                            Text="{Binding Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                    </StackPanel>
+
+                    <!--  Category  -->
+                    <StackPanel Spacing="12">
+                        <TextBlock
+                            x:Name="CategoryTextBlock"
+                            Style="{StaticResource BodyStrongTextBlockStyle}"
+                            Text="Category"
+                            TextWrapping="Wrap" />
+                        <ComboBox
+                            x:Name="CategoryComboBox"
+                            Width="200"
+                            ItemsSource="{Binding Categories}"
+                            SelectedIndex="{Binding SelectedCategoryIndex, Mode=TwoWay}" />
+                    </StackPanel>
+
+                    <!--  Rating  -->
+                    <StackPanel Spacing="12">
+                        <TextBlock
+                            x:Name="RatingTextBlock"
+                            Style="{StaticResource BodyStrongTextBlockStyle}"
+                            Text="Rating"
+                            TextWrapping="Wrap" />
+                        <RatingControl
+                            x:Name="RatingControl"
+                            HorizontalAlignment="Left"
+                            InitialSetValue="1"
+                            Value="{Binding Rating, Mode=TwoWay}" />
+                    </StackPanel>
+
+                    <!--  Version  -->
+                    <StackPanel Spacing="12">
+                        <TextBlock
+                            x:Name="VersionTextBlock"
+                            Style="{StaticResource BodyStrongTextBlockStyle}"
+                            Text="Version"
+                            TextWrapping="Wrap" />
+                        <NumberBox
+                            x:Name="VersionNumberBox"
+                            Minimum="1"
+                            SpinButtonPlacementMode="Compact"
+                            Value="{Binding Version, Mode=TwoWay}" />
+                    </StackPanel>
+                </StackPanel>
+            </Grid>
+        </StackPanel>
+    </ScrollViewer>
+</ContentDialog>

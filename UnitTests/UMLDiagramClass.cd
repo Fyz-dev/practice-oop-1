@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="OOP_Lab.Tests.ApplicationEntitieTests">
+    <Position X="11.25" Y="3" Width="4.75" />
+    <TypeIdentifier>
+      <HashCode>CAEBAAAECAACAAAAAACAIAEAAACgAKAQCAAAAhQAAAA=</HashCode>
+      <FileName>ApplicationEntitieTest.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OOP_Lab.Tests.ValidatorTests">
+    <Position X="8.5" Y="5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>ACAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAE=</HashCode>
+      <FileName>ValidatorTests.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OOP_Lab.Tests.BooleanToVisibilityConverterTests">
+    <Position X="8.5" Y="3" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAACAAAQAAAAA=</HashCode>
+      <FileName>BooleanToVisibilityConverterTests.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

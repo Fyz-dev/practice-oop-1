@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "OOP_Lab (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "OOP_Lab (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}
