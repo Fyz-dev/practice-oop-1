@@ -209,7 +209,7 @@ namespace OOP_Lab.Entities
             if (string.IsNullOrWhiteSpace(s))
                 throw new ArgumentException("Input string cannot be null or empty.");
 
-            string[] parts = s.Split('/');
+            string[] parts = s.Split(';');
 
             if (parts.Length != 5)
                 throw new FormatException("Input string must have exactly 5 parts.");
@@ -249,7 +249,7 @@ namespace OOP_Lab.Entities
 
         public override string ToString()
         {
-            return $"{Name}/{Description}/{Category}/{Rating}/{Version}";
+            return $"{Name};{Description};{Category};{Rating};{Version}";
         }
 
 

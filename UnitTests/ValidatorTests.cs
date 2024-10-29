@@ -26,8 +26,8 @@ namespace OOP_Lab.Tests
         [DataRow("", "Description is required.")]
         [DataRow("Valid description.", null)]
         [DataRow("Tooooooo long description that exceeds the maximum limit of 230 characters, which is meant to validate the validation logic of the description input. It should provide an appropriate error message when the length exceeds the limit.",
-            "Description cannot exceed 230 characters and must not contain the '/' character.")]
-        [DataRow("Invalid/Description", "Description cannot exceed 230 characters and must not contain the '/' character.")]
+            "Description cannot exceed 230 characters and must not contain the ';' character.")]
+        [DataRow("Invalid;Description", "Description cannot exceed 230 characters and must not contain the ';' character.")]
         public void ValidateDescription_TestCases(string description, string expected)
         {
             var result = Validator.ValidateDescription(description);

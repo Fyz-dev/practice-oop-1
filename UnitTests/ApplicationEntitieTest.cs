@@ -129,7 +129,7 @@ namespace OOP_Lab.Tests
 
             // Assert
             Assert.AreEqual(initialVersion, appEntity.Version);
-            Assert.AreEqual(initialLastUpdate, appEntity.LastUpdate); 
+            Assert.AreEqual(initialLastUpdate, appEntity.LastUpdate);
         }
 
         [TestMethod]
@@ -216,9 +216,9 @@ namespace OOP_Lab.Tests
         }
 
         [TestMethod]
-        [DataRow("TestApp/Test Description/Games/4.5/1", "TestApp", "Test Description", ApplicationCategory.Games, 4.5, 1)]
-        [DataRow("AnotherApp/Another Description/Other/3.0/2", "AnotherApp", "Another Description", ApplicationCategory.Other, 3.0, 2)]
-        [DataRow("SampleApp/Sample Description/Productivity/5.0/3", "SampleApp", "Sample Description", ApplicationCategory.Productivity, 5.0, 3)]
+        [DataRow("TestApp;Test Description;Games;4.5;1", "TestApp", "Test Description", ApplicationCategory.Games, 4.5, 1)]
+        [DataRow("AnotherApp;Another Description;Other;3.0;2", "AnotherApp", "Another Description", ApplicationCategory.Other, 3.0, 2)]
+        [DataRow("SampleApp;Sample Description;Productivity;5.0;3", "SampleApp", "Sample Description", ApplicationCategory.Productivity, 5.0, 3)]
         public void Parse_WithDataRow_ShouldReturnCorrectApplicationEntitie(string inputString, string expectedName, string expectedDescription, ApplicationCategory expectedCategory, double expectedRating, int expectedVersion)
         {
             // Act
@@ -234,13 +234,13 @@ namespace OOP_Lab.Tests
 
         [TestMethod]
         [DataRow("", typeof(ArgumentException))]
-        [DataRow("TestApp/Test Description/Other", typeof(FormatException))]
-        [DataRow("TestApp+/Test Description/Other/4/1", typeof(ArgumentException))]
-        [DataRow("TestApp//Other/4/1", typeof(ArgumentException))]
-        [DataRow("TestApp/Test Description/Test/4/1", typeof(ArgumentException))]
-        [DataRow("TestApp/Test Description/Other/-1/1", typeof(ArgumentException))]
-        [DataRow("TestApp/Test Description/Other/1/0", typeof(ArgumentException))]
-        [DataRow("TestApp+//0/aaa/0", typeof(ArgumentException))]
+        [DataRow("TestApp;Test Description;Other", typeof(FormatException))]
+        [DataRow("TestApp+;Test Description;Other;4;1", typeof(ArgumentException))]
+        [DataRow("TestApp;;Other;4;1", typeof(ArgumentException))]
+        [DataRow("TestApp;Test Description;Test;4;1", typeof(ArgumentException))]
+        [DataRow("TestApp;Test Description;Other;-1;1", typeof(ArgumentException))]
+        [DataRow("TestApp;Test Description;Other;1;0", typeof(ArgumentException))]
+        [DataRow("TestApp+;;0;aaa;0", typeof(ArgumentException))]
         public void Parse_InvalidStrings_ShouldThrowExpectedException(string invalidInput, Type expectedExceptionType)
         {
             // Arrange
@@ -263,14 +263,14 @@ namespace OOP_Lab.Tests
 
         [TestMethod]
         [DataRow("", false)]
-        [DataRow("TestApp/Test Description/Other", false)]
-        [DataRow("TestApp+/Test Description/Other/4/1", false)]
-        [DataRow("TestApp//Other/4/1", false)]
-        [DataRow("TestApp/Test Description/Test/4/1", false)]
-        [DataRow("TestApp/Test Description/Other/-1/1", false)]
-        [DataRow("TestApp/Test Description/Other/1/0", false)]
-        [DataRow("TestApp+//0/aaa/0", false)]
-        [DataRow("TestApp/Test Description/Games/4/1", true)]
+        [DataRow("TestApp;Test Description;Other", false)]
+        [DataRow("TestApp+;Test Description;Other;4;1", false)]
+        [DataRow("TestApp;;Other;4;1", false)]
+        [DataRow("TestApp;Test Description;Test;4;1", false)]
+        [DataRow("TestApp;Test Description;Other;-1;1", false)]
+        [DataRow("TestApp;Test Description;Other;1;0", false)]
+        [DataRow("TestApp+;;0;aaa;0", false)]
+        [DataRow("TestApp;Test Description;Games;4;1", true)]
         public void TryParse_WithDataRow_ShouldReturnExpectedResult(string inputString, bool expectedResult)
         {
             // Act
@@ -284,13 +284,13 @@ namespace OOP_Lab.Tests
             else
                 Assert.IsNull(app);
         }
-      
+
         [TestMethod]
         public void ToString_ShouldReturnFormattedString()
         {
             // Arrange
             var appEntity = new ApplicationEntitie("TestApp", "This is a test app", ApplicationCategory.Games, 3.5, 1);
-            string expectedString = "TestApp/This is a test app/Games/3.5/1";
+            string expectedString = "TestApp;This is a test app;Games;3.5;1";
 
             // Act
             string resultString = appEntity.ToString();

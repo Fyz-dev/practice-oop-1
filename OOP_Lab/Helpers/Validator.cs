@@ -18,8 +18,8 @@ namespace OOP_Lab.Helpers
             if (string.IsNullOrWhiteSpace(description))
                 return "Description is required.";
 
-            var descriptionRegex = new Regex(@"^[^/]{0,230}$");
-            return !descriptionRegex.IsMatch(description) ? "Description cannot exceed 230 characters and must not contain the '/' character." : null;
+            var descriptionRegex = new Regex(@"^[^;]{0,230}$");
+            return !descriptionRegex.IsMatch(description) ? "Description cannot exceed 230 characters and must not contain the ';' character." : null;
         }
 
         public static string ValidateVersion(string version)
