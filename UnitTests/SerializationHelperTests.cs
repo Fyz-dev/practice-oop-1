@@ -84,6 +84,55 @@ namespace OOP_Lab.Tests
             Assert.IsNotNull(deserializedApplications, "Deserialized applications should not be null.");
             Assert.AreEqual(0, deserializedApplications.Count, "Expected no applications to be deserialized from invalid data.");
         }
+
+        [TestMethod]
+        [DynamicData(nameof(GetDynamicApplications), DynamicDataSourceType.Method)]
+        public void SerializeToJson_TestCase(List<ApplicationEntitie> applications)
+        {
+            // Act
+            SerializationHelper.SerializeToJson(applications, TestJsonFilePath);
+
+            // Assert
+            Assert.IsTrue(File.Exists(TestJsonFilePath), "JSON file was not created.");
+
+            var jsonContent = File.ReadAllText(TestJsonFilePath);
+
+            foreach (var app in applications)
+            {
+                Assert.IsTrue(
+                    jsonContent.Contains(app.Name),
+                    "Serialized JSON does not contain the application name."
+                );
+            }
+        }
+
+        [TestMethod]
+        [DynamicData(nameof(GetDynamicApplications), DynamicDataSourceType.Method)]
+        public void DeserializeFromJson_TestCase(List<ApplicationEntitie> applications)
+        {
+            // Arrange
+            SerializationHelper.SerializeToJson(applications, TestJsonFilePath);
+
+            // Act
+            var deserializedApplications = SerializationHelper.DeserializeFromJson(TestJsonFilePath);
+
+            // Assert
+            Assert.AreEqual(
+                applications.Count,
+                deserializedApplications.Count,
+                "Expected multiple applications to be deserialized."
+            );
+
+            for (int i = 0; i < applications.Count; i++)
+            {
+                Assert.AreEqual(
+                    applications[i].ToString(),
+                    deserializedApplications[i].ToString(),
+                    "Deserialized application does not match the expected data."
+                );
+            }
+        }
+
         public static IEnumerable<object[]> GetDynamicApplications()
         {
             yield return new object[]
