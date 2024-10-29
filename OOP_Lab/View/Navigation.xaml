@@ -1,16 +1,22 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <UserControl
     x:Class="OOP_Lab.View.Navigation"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:OOP_Lab.View"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:OOP_Lab.View"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
-    <NavigationView x:Name="NavView" Grid.Row="1" Loaded="OnLoaded" IsBackButtonVisible="Collapsed" ItemInvoked="OnNavigationViewItemInvoked">
+    <NavigationView
+        x:Name="NavView"
+        Grid.Row="1"
+        IsBackButtonVisible="Collapsed"
+        ItemInvoked="OnNavigationViewItemInvoked"
+        Loaded="OnLoaded">
         <NavigationView.MenuItems>
-            <NavigationViewItem Icon="Home" Content="Home" />
+            <NavigationViewItem Content="Home" Icon="Home" />
+            <NavigationViewItem Content="Serialization" Icon="Save" />
         </NavigationView.MenuItems>
-        <Frame x:Name="contentFrame" Background="Transparent"/>
+        <Frame x:Name="contentFrame" Background="Transparent" />
     </NavigationView>
 </UserControl>
